@@ -313,6 +313,7 @@ def calculate_home_away_stats(weekly_table):
     """
     Calculate the player's average fantasy points
     in home games and away games.
+    Ignore 0-point games when calculating averages.
     """
 
     home_games = weekly_table[
@@ -331,20 +332,20 @@ def calculate_home_away_stats(weekly_table):
         )
     ].copy()
 
-  # Ignore games with 0 fantasy points
-home_average = (
-    home_games.loc[
-        home_games["Fantasy Pts"] > 0,
-        "Fantasy Pts",
-    ].mean()
-)
+    # Ignore games with 0 fantasy points
+    home_average = (
+        home_games.loc[
+            home_games["Fantasy Pts"] > 0,
+            "Fantasy Pts",
+        ].mean()
+    )
 
-away_average = (
-    away_games.loc[
-        away_games["Fantasy Pts"] > 0,
-        "Fantasy Pts",
-    ].mean()
-)
+    away_average = (
+        away_games.loc[
+            away_games["Fantasy Pts"] > 0,
+            "Fantasy Pts",
+        ].mean()
+    )
 
     if pd.isna(home_average):
         home_average = 0
@@ -366,8 +367,8 @@ away_average = (
         "home_average": home_average,
         "away_average": away_average,
         "better_split": better_split,
-        "home_games": len(home_games),
-        "away_games": len(away_games),
+        "home_games": len(home_games[home_games["Fantasy Pts"] > 0]),
+        "away_games": len(away_games[away_games["Fantasy Pts"] > 0]),
     }
 # ---------------------------------------------------------
 # CALCULATE POSITION-WIDE RANKINGS
