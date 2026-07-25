@@ -331,8 +331,20 @@ def calculate_home_away_stats(weekly_table):
         )
     ].copy()
 
-    home_average = home_games["Fantasy Pts"].mean()
-    away_average = away_games["Fantasy Pts"].mean()
+  # Ignore games with 0 fantasy points
+home_average = (
+    home_games.loc[
+        home_games["Fantasy Pts"] > 0,
+        "Fantasy Pts",
+    ].mean()
+)
+
+away_average = (
+    away_games.loc[
+        away_games["Fantasy Pts"] > 0,
+        "Fantasy Pts",
+    ].mean()
+)
 
     if pd.isna(home_average):
         home_average = 0
