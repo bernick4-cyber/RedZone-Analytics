@@ -19,18 +19,6 @@ st.set_page_config(
 # FILE SETTINGS
 # ---------------------------------------------------------
 EXCEL_FILE = Path(__file__).parent / "NFL Project 2025.xlsx"
-st.write(
-    df[
-        df["Player"]
-        .fillna("")
-        .astype(str)
-        .str.contains(
-            "Brian Thomas",
-            case=False,
-            na=False,
-        )
-    ][["Player"]]
-)
 
 # Full NFL team name to abbreviation
 TEAM_ABBREVIATIONS = {
@@ -170,6 +158,19 @@ def load_data():
             )
 
     return players, schedule, rankings
+    st.write(
+    "Brian Thomas rows:",
+    players[
+        players["Player"]
+        .fillna("")
+        .astype(str)
+        .str.contains(
+            "Brian Thomas",
+            case=False,
+            na=False,
+        )
+    ][["Player", "Position", "Team"]]
+)
 # ---------------------------------------------------------
 # POSITION-BASED MATCHUP SETTINGS
 # ---------------------------------------------------------
