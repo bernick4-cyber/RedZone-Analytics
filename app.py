@@ -9,7 +9,7 @@ import streamlit as st
 # PAGE SETTINGS
 # ---------------------------------------------------------
 st.set_page_config(
-    page_title="2025 NFL Player Personnel",
+    page_title="Redzone Analytics",
     page_icon="🏈",
     layout="wide",
 )
@@ -313,52 +313,26 @@ def calculate_home_away_stats(weekly_table):
     """
     Calculate the player's average fantasy points
     in home games and away games.
-    Ignore 0-point games when calculating averages.
     """
 
-    df = weekly_table.copy()
-
-    # Make Matchup safe for string operations
-    df["Matchup"] = (
-        df["Matchup"]
-        .fillna("")
-        .astype(str)
-        .str.strip()
-    )
-
-    # Make Fantasy Pts safely numeric
-    df["Fantasy Pts"] = pd.to_numeric(
-        df["Fantasy Pts"],
-        errors="coerce",
-    ).fillna(0)
-
-    home_games = df[
-        df["Matchup"].str.contains(
+    home_games = weekly_table[
+        weekly_table["Matchup"].str.contains(
             "vs",
             case=False,
             na=False,
         )
     ].copy()
 
-    away_games = df[
-        df["Matchup"].str.contains(
+    away_games = weekly_table[
+        weekly_table["Matchup"].str.contains(
             "@",
             case=False,
             na=False,
         )
     ].copy()
 
-    # Ignore games with 0 fantasy points
-    home_scoring_games = home_games[
-        home_games["Fantasy Pts"] > 0
-    ]
-
-    away_scoring_games = away_games[
-        away_games["Fantasy Pts"] > 0
-    ]
-
-    home_average = home_scoring_games["Fantasy Pts"].mean()
-    away_average = away_scoring_games["Fantasy Pts"].mean()
+    home_average = home_games["Fantasy Pts"].mean()
+    away_average = away_games["Fantasy Pts"].mean()
 
     if pd.isna(home_average):
         home_average = 0
@@ -380,8 +354,8 @@ def calculate_home_away_stats(weekly_table):
         "home_average": home_average,
         "away_average": away_average,
         "better_split": better_split,
-        "home_games": len(home_scoring_games),
-        "away_games": len(away_scoring_games),
+        "home_games": len(home_games),
+        "away_games": len(away_games),
     }
 # ---------------------------------------------------------
 # CALCULATE POSITION-WIDE RANKINGS
