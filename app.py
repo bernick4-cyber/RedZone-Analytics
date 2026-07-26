@@ -606,19 +606,6 @@ selected_player_rows = position_players[
     position_players["Player"] == selected_player
 ]
 
-if selected_player_rows.empty:
-    st.error("The selected player could not be found.")
-    st.stop()
-
-player_row = selected_player_rows.iloc[0]
-st.write("Selected player:", player_row["Player"])
-st.write("Selected team:", player_row["Team"])
-
-for week in range(1, 18):
-    st.write(
-        f"Week {week}:",
-        player_row.get(str(week), player_row.get(week))
-    )
 
 # ---------------------------------------------------------
 # BUILD SELECTED PLAYER TABLE
