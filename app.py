@@ -158,19 +158,7 @@ def load_data():
             )
 
     return players, schedule, rankings
-    st.write(
-    "Brian Thomas rows:",
-    players[
-        players["Player"]
-        .fillna("")
-        .astype(str)
-        .str.contains(
-            "Brian Thomas",
-            case=False,
-            na=False,
-        )
-    ][["Player", "Position", "Team"]]
-)
+    
 # ---------------------------------------------------------
 # POSITION-BASED MATCHUP SETTINGS
 # ---------------------------------------------------------
