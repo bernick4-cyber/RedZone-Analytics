@@ -20,6 +20,7 @@ st.set_page_config(
 # ---------------------------------------------------------
 EXCEL_FILE = Path(__file__).parent / "NFL Project 2025.xlsx"
 
+
 # Full NFL team name to abbreviation
 TEAM_ABBREVIATIONS = {
     "Arizona Cardinals": "ARI",
@@ -158,7 +159,6 @@ def load_data():
             )
 
     return players, schedule, rankings
-    
 # ---------------------------------------------------------
 # POSITION-BASED MATCHUP SETTINGS
 # ---------------------------------------------------------
@@ -605,6 +605,12 @@ selected_player = st.sidebar.selectbox(
 selected_player_rows = position_players[
     position_players["Player"] == selected_player
 ]
+
+if selected_player_rows.empty:
+    st.error("The selected player could not be found.")
+    st.stop()
+
+player_row = selected_player_rows.iloc[0]
 
 
 # ---------------------------------------------------------
